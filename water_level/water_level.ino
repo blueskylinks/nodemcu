@@ -119,6 +119,10 @@ void loop() {
    }
      digitalWrite(D3,LOW);
   } 
+
+  void memory_read(){
+    //added new function to read memory
+  }
  
 
 
