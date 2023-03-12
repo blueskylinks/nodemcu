@@ -122,6 +122,10 @@ void loop() {
 
   void memory_read(){
     //added new function to read memory
+    int n1;
+    int n2;
+    int sum=n1+n2;
+    Serial.println(sum);
   }
  
 
