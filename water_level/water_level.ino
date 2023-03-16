@@ -17,7 +17,7 @@ void setup() {
   pinMode(D7, OUTPUT);
   pinMode(D8, OUTPUT);
   // Buzzer LED 
-  pinMode(D4, OUTPUT);
+  pinMode(D4, INPUT_PULLUP);
   pinMode(D3, OUTPUT);  
 
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
@@ -47,7 +47,10 @@ void loop() {
   Serial.println(distanceCm);
   Serial.print("Distance (inch): ");
   Serial.println(distanceInch);
-   
+     
+if(digitalRead(D4)==0){
+    read_function();
+  }     
   if(distanceInch<=40){
     digitalWrite(D5, HIGH);   
     delay(5000);
@@ -91,8 +94,8 @@ void loop() {
     digitalWrite(D8, LOW);    
   }
   delay(1000);
+  
 }
- 
  
  void tank_empty(){
    Serial.println("Tank is empty now....");
@@ -125,9 +128,10 @@ void loop() {
     int n1;
     int n2;
     int sum=n1+n2;
-    Serial.println(sum);
+    Serial.println(sum...);
   }
- 
+
+
 
 
 
