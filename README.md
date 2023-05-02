@@ -2,6 +2,8 @@ NodeMCU GPIO with Arduino IDE
 Introduction to GPIO
 General-purpose input/output (GPIO) is a pin on an IC (Integrated Circuit). It can be either an input pin or output pin, whose behavior can be controlled at the run time.
 
+https://www.electronicwings.com/nodemcu/nodemcu-gpio-with-arduino-ide
+
 NodeMCU Development kit provides access to these GPIOs of ESP8266. The only thing to take care of is that NodeMCU Devkit pins are numbered differently than internal GPIO notations of ESP8266 as shown in the below figure and table. For example, the D0 pin on the NodeMCU Devkit is mapped to the internal GPIO pin 16 of ESP8266.
 ![image](https://user-images.githubusercontent.com/33327295/235571427-d0fee06f-433b-4390-83cc-3b82a8832613.png)
 
@@ -32,6 +34,9 @@ ESP8266 Internal GPIO Pin number
  
 
 The GPIO’s shown in the blue box (1, 3, 9, 10) are not commonly used for GPIO purpose on Dev Kit
+
+![image](https://user-images.githubusercontent.com/33327295/235572737-01644829-d7a7-48de-ab22-866d3d56d217.png)
+
 
 ESP8266 is a system on a chip (SoC) design with components like the processor chip. The processor has around 16 GPIO lines, some of which are used internally to interface with other components of the SoC, like flash memory.
 
