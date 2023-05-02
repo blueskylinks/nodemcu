@@ -1,21 +1,28 @@
-int count = 0;
+//#include <EEPROM.h>
+int count;
 
-void setup() {
+void setup() {  
   Serial.begin(115200);
+  count=1;
+  // EEPROM.begin(512);
+  // EEPROM.write(D7,20);
+  // EEPROM.read(D7); 
   pinMode(D3, INPUT_PULLUP);//input pin declair.
   pinMode(D5, OUTPUT);
   pinMode(D6, OUTPUT);
   pinMode(D7, OUTPUT);
   pinMode(D8, OUTPUT);
-
+  Serial.println("Started....");
 }
 
 void loop() {
- if(digitalRead(D3)==0){
-  if(count <=4)
-  {
-  count=count+1;
-  }
+  if(digitalRead(D3)==0){
+     Memory_read();   
+     if(count == 4){
+        count=0;}
+        count=count+1;
+   }
+
   switch(count)
   {
   case 1:
@@ -38,6 +45,14 @@ void loop() {
        count= 0;
        break;  
   }
-  delay(200);
+  delay(300);
+
 }
+
+void Memory_read(){
+  Serial.println("LED NO...");
+  Serial.println(count); 
 }
+  
+
+

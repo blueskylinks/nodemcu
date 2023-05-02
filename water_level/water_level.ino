@@ -12,14 +12,13 @@ float distanceInch;
 
 void setup() {
   Serial.begin(115200); // Starts the serial communication
+
+  pinMode(D4, OUTPUT);
   pinMode(D5, OUTPUT);
   pinMode(D6, OUTPUT);
   pinMode(D7, OUTPUT);
   pinMode(D8, OUTPUT);
-  // Buzzer LED 
-  pinMode(D4, INPUT_PULLUP);
-  pinMode(D3, OUTPUT);  
-
+   
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 }
@@ -48,101 +47,113 @@ void loop() {
   Serial.print("Distance (inch): ");
   Serial.println(distanceInch);
      
-if(digitalRead(D4)==0){
-    read_function();
-  }     
-  if(distanceInch<=40){
-    digitalWrite(D5, HIGH);   
-    delay(5000);
+  if(digitalRead(D3)==0){
+       Serial.println("Connected.......");   
+       read_function();
+    }    
+  if(distanceInch<=42 && distanceInch>=35){
+    Serial.print("level 10%\n");    
+    //digitalWrite(D3, HIGH);  
+    tank_empty();      
   }
   else{     
-    digitalWrite(D5, LOW); 
-    tank_empty();        
+   // digitalWrite(D3, LOW);      
+  }   
+  if(distanceInch<=35 && distanceInch>=28){
+    Serial.print("level 15%\n");    
+    digitalWrite(D4, HIGH);      
+  }
+  else{     
+    digitalWrite(D4, LOW);      
+  }
+  
+  if(distanceInch<=28 && distanceInch>=21){
+    Serial.print("level 25%\n");
+    digitalWrite(D5, HIGH);   
+  }
+  else{     
+    digitalWrite(D5, LOW);        
   }
 
-  delay(1000);
-  
-  if (digitalRead(D3)==0) 
-  {
-   // blink();
-  } 
-  
-  if(distanceInch<=30){
-    Serial.print("level 2nd=\n");
+  if(distanceInch<=21 && distanceInch>=14 ){
+    Serial.print("level 50%\n");
     digitalWrite(D6, HIGH);
-   // delay(2000); 
   }
   else{
     digitalWrite(D6, LOW);
   }
   
-  if(distanceInch<=20){
-    Serial.print("level 3rd=\n");
+  if(distanceInch<=14 && distanceInch>=7 ){
+    Serial.print("level 75%\n");
     digitalWrite(D7, HIGH);
-   // delay(2000);
   }
   else{
     digitalWrite(D7, LOW);
   }
   
-  if(distanceInch<=10){
+  if(distanceInch<=7 && distanceInch>=1 ){
+    Serial.print("level 100%\n");    
     digitalWrite(D8, HIGH);
     tank_full();
-    delay(5000);
   }
   else{
     digitalWrite(D8, LOW);    
   }
+  
   delay(1000);
   
 }
  
  void tank_empty(){
-   Serial.println("Tank is empty now....");
-   for(int i=1; i<=10;i++)
-   {
-     Serial.println("Empty and Slow Blink....");
-     digitalWrite(D3,LOW);
-     delay(500);
-     digitalWrite(D3,HIGH);  
-     delay(500);  
-   }
-     digitalWrite(D3,LOW);
- }
+     Serial.println("Tank is empty now....");
+     for(int i=1; i<=10;i++)
+     {
+       Serial.println("Empty and Slow Blink....");
+        digitalWrite(D3,LOW);
+        delay(500);
+        digitalWrite(D3,HIGH);  
+        delay(500);  
+      }
+        digitalWrite(D3,LOW);
+    }
 
- void tank_full() {
-   Serial.println("Tank is full now....");
-   for(int i=1; i<=20;i++)
-   {
-     Serial.println("Full and Fast Blink....");
-     digitalWrite(D3,LOW);
-     delay(200);
-     digitalWrite(D3,HIGH);  
-     delay(200);  
-   }
-     digitalWrite(D3,LOW);
-  } 
+    void tank_full() {
+      Serial.println("Tank is full now....");
+      for(int i=1; i<=20;i++)
+     {
+        Serial.println("Full and Fast Blink....");
+        digitalWrite(D3,LOW);
+        delay(200);
+        digitalWrite(D3,HIGH);  
+        delay(200);  
+     }
+        digitalWrite(D3,LOW);
+    } 
 
-  void memory_read(){
-    //added new function to read memory
-    int n1;
-    int n2;
-    int sum=n1+n2;
-    Serial.println(sum...);
-  }
+ //    void memory_read(){
+ //      //added new function to read memory
+ //   int n1;
+ //   int n2;
+ //   int sum=n1+n2;
+ //   Serial.println(sum);
+ // }
+
+    void read_function(){
+        Serial.print("Hello world...");
+        delay(5000);  
+    }        
+ 
 
 
 
-
-
-// void blink(){
-//     for(int i=1; i<=10;i++)
-//     {
-//       Serial.println("blink.....");
-//         digitalWrite(D4,HIGH);
-//         delay(200);
-//         digitalWrite(D4,LOW);
-//         delay(200);
-//     }
+ // void blink(){
+ //     for(int i=1; i<=10;i++)
+ //     {
+ //       Serial.println("blink.....");
+ //         digitalWrite(D4,HIGH);
+ //         delay(200);
+ //         digitalWrite(D4,LOW);
+ //          delay(200);
+ //     }
 
   
