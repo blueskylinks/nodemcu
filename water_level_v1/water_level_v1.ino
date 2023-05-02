@@ -10,6 +10,7 @@ float distanceCm;
 float distanceInch;
 int   tank_size, len;
 float cap;
+int cap1;
 int count=0;
 
 void setup() {
@@ -55,14 +56,68 @@ void loop() {
   Serial.println(distanceInch);
   cap=distanceInch/(len*1.5);
   Serial.print("Capacity:");
-  Serial.println(((int)cap)+0);
-  delay(5000);
+  cap1=(((int)cap)+0);
+  Serial.println(cap1);
 
+  switch(cap1){
+    case 1:
+      digitalWrite(D5,HIGH);
+      digitalWrite(D6,HIGH);
+      digitalWrite(D7,HIGH);
+      Serial.println("Level 1");
+    break;
+
+    case 2:
+      digitalWrite(D5,HIGH);
+      digitalWrite(D6,HIGH);
+      digitalWrite(D7,LOW);
+      Serial.println("Level 2");
+    break;
+
+    case 3:
+      digitalWrite(D5,HIGH);
+      digitalWrite(D6,LOW);
+      digitalWrite(D7,HIGH);
+      Serial.println("Level 3");
+    break;
+
+    case 4:
+      digitalWrite(D5,HIGH);
+      digitalWrite(D6,LOW);
+      digitalWrite(D7,LOW);
+      Serial.println("Level 4");
+    break;
+
+    case 5:
+      digitalWrite(D5,LOW);
+      digitalWrite(D6,HIGH);
+      digitalWrite(D7,HIGH);
+      Serial.println("Level 5");
+    break;
+
+    case 6:
+      digitalWrite(D5,LOW);
+      digitalWrite(D6,HIGH);
+      digitalWrite(D7,LOW);
+      Serial.println("Level 6");
+    break;
+
+    case 7:
+      digitalWrite(D5,LOW);
+      digitalWrite(D6,LOW);
+      digitalWrite(D7,HIGH);
+      Serial.println("Level 7");
+    break;  
+                                     
+  }
+  delay(5000);
+}
+  /*
   count=count+1;
   if(count>=24){
     ESP.deepSleep(1200e6);
-  }  
-}
+  }  */
+
 
 
  
