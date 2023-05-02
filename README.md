@@ -14,20 +14,21 @@ NodeMCU DevKit GPIOs
 
 The below table gives NodeMCU Dev Kit IO pins and ESP8266 internal GPIO pins mapping
 
-Pin Names on NodeMCU Development Kit	ESP8266 Internal GPIO Pin number
-D0	GPIO16
-D1	GPIO5
-D2	GPIO4
-D3	GPIO0
-D4	GPIO2
-D5	GPIO14
-D6	GPIO12
-D7	GPIO13
-D8	GPIO15
-D9/RX	GPIO3
-D10/TX	GPIO1
-D11/SD2	GPIO9
-D12/SD3	GPIO10
+Pin Names on NodeMCU Development Kit	
+ESP8266 Internal GPIO Pin number
+	#D0		GPIO16
+	#D1		GPIO5
+	#D2		GPIO4
+	#D3		GPIO0
+	#D4		GPIO2
+	D5		GPIO14
+	D6		GPIO12
+	D7		GPIO13
+	D8		GPIO15
+	D9/RX		GPIO3
+	D10/TX		GPIO1
+	D11/SD2		GPIO9
+	D12/SD3		GPIO10
  
 
 The GPIO’s shown in the blue box (1, 3, 9, 10) are not commonly used for GPIO purpose on Dev Kit
