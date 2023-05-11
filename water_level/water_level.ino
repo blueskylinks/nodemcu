@@ -46,28 +46,18 @@ void loop() {
   Serial.println(distanceCm);
   Serial.print("Distance (inch): ");
   Serial.println(distanceInch);
+  
      
   if(digitalRead(D3)==0){
-       Serial.println("Connected.......");   
+       Serial.println("Connected..");   
        read_function();
     }    
-  if(distanceInch<=42 && distanceInch>=35){
+  if(distanceInch<=50 && distanceInch>=35){
     Serial.print("level 10%\n");    
-    //digitalWrite(D3, HIGH);  
     tank_empty();      
   }
-  else{     
-   // digitalWrite(D3, LOW);      
-  }   
-  if(distanceInch<=35 && distanceInch>=28){
-    Serial.print("level 15%\n");    
-    digitalWrite(D4, HIGH);      
-  }
-  else{     
-    digitalWrite(D4, LOW);      
-  }
-  
-  if(distanceInch<=28 && distanceInch>=21){
+
+  if(distanceInch<=35 && distanceInch>=24){
     Serial.print("level 25%\n");
     digitalWrite(D5, HIGH);   
   }
@@ -75,7 +65,7 @@ void loop() {
     digitalWrite(D5, LOW);        
   }
 
-  if(distanceInch<=21 && distanceInch>=14 ){
+  if(distanceInch<=24 && distanceInch>=16 ){
     Serial.print("level 50%\n");
     digitalWrite(D6, HIGH);
   }
@@ -83,7 +73,7 @@ void loop() {
     digitalWrite(D6, LOW);
   }
   
-  if(distanceInch<=14 && distanceInch>=7 ){
+  if(distanceInch<=16 && distanceInch>=7 ){
     Serial.print("level 75%\n");
     digitalWrite(D7, HIGH);
   }
@@ -91,30 +81,27 @@ void loop() {
     digitalWrite(D7, LOW);
   }
   
-  if(distanceInch<=7 && distanceInch>=1 ){
+  if(distanceInch<=7 ){
     Serial.print("level 100%\n");    
-    digitalWrite(D8, HIGH);
     tank_full();
   }
   else{
     digitalWrite(D8, LOW);    
-  }
-  
+  } 
   delay(1000);
-  
 }
  
- void tank_empty(){
+    void tank_empty(){
      Serial.println("Tank is empty now....");
-     for(int i=1; i<=10;i++)
+     for(int i=1; i<=5;i++)
      {
        Serial.println("Empty and Slow Blink....");
-        digitalWrite(D3,LOW);
-        delay(500);
-        digitalWrite(D3,HIGH);  
-        delay(500);  
+        digitalWrite(D4,HIGH);
+        delay(1000);
+        digitalWrite(D4,LOW);  
+        delay(1000);  
       }
-        digitalWrite(D3,LOW);
+      delay(20000);
     }
 
     void tank_full() {
@@ -122,38 +109,18 @@ void loop() {
       for(int i=1; i<=20;i++)
      {
         Serial.println("Full and Fast Blink....");
-        digitalWrite(D3,LOW);
+        digitalWrite(D8,HIGH);
         delay(200);
-        digitalWrite(D3,HIGH);  
+        digitalWrite(D8,LOW);  
         delay(200);  
      }
-        digitalWrite(D3,LOW);
+     delay(20000);
     } 
-
- //    void memory_read(){
- //      //added new function to read memory
- //   int n1;
- //   int n2;
- //   int sum=n1+n2;
- //   Serial.println(sum);
- // }
 
     void read_function(){
         Serial.print("Hello world...");
         delay(5000);  
     }        
- 
 
-
-
- // void blink(){
- //     for(int i=1; i<=10;i++)
- //     {
- //       Serial.println("blink.....");
- //         digitalWrite(D4,HIGH);
- //         delay(200);
- //         digitalWrite(D4,LOW);
- //          delay(200);
- //     }
 
   
