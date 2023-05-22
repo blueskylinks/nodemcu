@@ -60,6 +60,17 @@ void loop() {
   Serial.println(cap1);
 
   switch(cap1){
+
+    case 0:
+      digitalWrite(D4,HIGH);
+      digitalWrite(D5,LOW);
+      digitalWrite(D6,LOW);
+      digitalWrite(D7,LOW);
+      digitalWrite(D8,LOW); 
+      Serial.println("Level 1 Full");
+      tank_full();
+    break;
+    
      case 1:
       digitalWrite(D4,HIGH);
       digitalWrite(D5,LOW);
@@ -67,6 +78,7 @@ void loop() {
       digitalWrite(D7,LOW);
       digitalWrite(D8,LOW); 
       Serial.println("Level 1 Full");
+      tank_full();
     break;
 
     case 2:
@@ -105,7 +117,7 @@ void loop() {
       Serial.println("Level 5 Empty");
       break;
       
-    defualt:
+    default:
       digitalWrite(D4,LOW);
       digitalWrite(D5,LOW);
       digitalWrite(D6,LOW);
@@ -114,12 +126,17 @@ void loop() {
    }
     delay(1000);
  }
+
+ void tank_full(){
+  for(int i=0;i<=20; i++){
+    digitalWrite(D4,HIGH);
+    delay(200);
+    digitalWrite(D4,LOW);
+    delay(200);
+  }
+ }
   /*
   count=count+1;
   if(count>=24){
     ESP.deepSleep(1200e6);
   }  */
-
-
-
- 
