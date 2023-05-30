@@ -55,13 +55,25 @@ void loop() {
   Serial.println(distanceCm);
   Serial.print("Distance (inch): ");
   Serial.println(distanceInch);
-  cap=distanceInch/(len*1.5);
+  cap=distanceInch/(len*1);
   Serial.print("Capacity:");
   cap1=(((int)cap)+0);
   Serial.println(cap1);
 
   switch(cap1){
 
+    case 0:
+      if(distanceInch>=2.00){
+        digitalWrite(D4,HIGH);
+        digitalWrite(D5,LOW);
+        digitalWrite(D6,LOW);
+        digitalWrite(D7,LOW);
+        digitalWrite(D8,LOW); 
+        Serial.println("Level 0 Full");
+        tank_full();
+      }
+    break;
+      
     case 1:
       digitalWrite(D4,HIGH);
       digitalWrite(D5,LOW);
@@ -103,30 +115,11 @@ void loop() {
       digitalWrite(D4,LOW);
       digitalWrite(D5,LOW);
       digitalWrite(D6,LOW);
-      digitalWrite(D7,HIGH);
-      digitalWrite(D8,LOW); 
+      digitalWrite(D7,LOW);
+      digitalWrite(D8,HIGH); 
       Serial.println("Level 5");
+      tank_empty();
     break;
-
-    case 6:
-      digitalWrite(D4,LOW);
-      digitalWrite(D5,LOW);
-      digitalWrite(D6,LOW);
-      digitalWrite(D7,LOW);
-      digitalWrite(D8,HIGH); 
-      Serial.println("Level 6 Empty");
-      tank_empty();
-      break;
-
-    case 7:
-      digitalWrite(D4,LOW);
-      digitalWrite(D5,LOW);
-      digitalWrite(D6,LOW);
-      digitalWrite(D7,LOW);
-      digitalWrite(D8,HIGH); 
-      Serial.println("Level 7 Empty");
-      tank_empty();
-      break;
       
     default:
       digitalWrite(D4,LOW);
@@ -140,42 +133,45 @@ void loop() {
     Serial.println(count);
     if(count>=60){
       Serial.println("Sleep Mode Start.....");
-      ESP.deepSleep(1200e6);
+      ESP.deepSleep(1800e6);
     }
  }
 
  void tank_full(){
-  for(int i=0;i<=20; i++){
+  for(int i=0;i<=5; i++){
     digitalWrite(D4,HIGH);
     delay(200);
     digitalWrite(D4,LOW);
     delay(200);
   }
-  delay(10000);
+  count=count+5;
+  delay(5000);
+  
  }
 
-   void tank_empty(){
-    for(int i=0;i<=10; i++){
+ void tank_empty(){
+    for(int i=0;i<=5; i++){
     digitalWrite(D8,HIGH);
-    delay(1000);
+    delay(500);
     digitalWrite(D8,LOW);
-    delay(1000);
+    delay(500);
   }
-  delay(10000);
+  count=count+5;
+  delay(5000);
  }
 
   void tank_blinkall(){
      
      digitalWrite(D4,HIGH);
-     delay(200);
+     delay(100);
      digitalWrite(D5,HIGH);
-     delay(200);
+     delay(100);
      digitalWrite(D6,HIGH);
-     delay(200);
+     delay(100);
      digitalWrite(D7,HIGH);
-     delay(200);
+     delay(100);
      digitalWrite(D8,HIGH);     
-     delay(1000);
+     delay(100);
 
      digitalWrite(D4,LOW);
      digitalWrite(D5,LOW);
