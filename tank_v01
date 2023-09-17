@@ -1,0 +1,238 @@
+#include <EEPROM.h>
+
+const int led_full = D5;
+const int led_empty = D6;
+const int led_middle = D7;
+
+const int TONEPIN = D8;
+const int INPUTPIN1 = D1;
+const int INPUTPIN2 = D2;
+int sensorValue = A0;
+int period = 8000;
+unsigned long time_now = 1;
+long count = 0;
+int inputcheck=0;
+int delaycheck=0;
+int addr1 = 0;
+int addr2 = 1;
+int value = 1;
+int value2 = 2;
+byte memval;
+byte memval2;
+ 
+void setup() {
+    Serial.begin(115200);
+    EEPROM.begin(512);
+    pinMode(TONEPIN, OUTPUT);
+    pinMode(led_full, OUTPUT);
+    pinMode(led_empty, OUTPUT);
+    pinMode(led_middle, OUTPUT);
+    pinMode(INPUTPIN1, INPUT_PULLUP);
+    pinMode(INPUTPIN2, INPUT_PULLUP);
+    digitalWrite(led_full, LOW);
+    digitalWrite(led_empty, LOW);
+    digitalWrite(led_middle, LOW);
+    sensorValue = analogRead(A0);
+    if(sensorValue<300){
+      Serial.println("Middle level!");
+      digitalWrite(led_middle, HIGH);
+    }
+    memval=EEPROM.read(addr1);
+    memval2=EEPROM.read(addr2);
+    value=memval;
+    value2=memval2;
+    ledtest();
+}
+ 
+void loop() {
+    mill_test();
+    sensorValue = analogRead(A0);
+    if(digitalRead(INPUTPIN1)==0){
+      Serial.println("Stop...");
+      inputcheck = inputcheck + 1;
+      if(inputcheck >= 8){
+          if(value<=3){
+            value=value+1;
+            change_tone();
+            Serial.println("Tone Value Changed..!");
+          }else{
+            value=1;
+          }
+        }  
+      }
+      else{
+      inputcheck=0;
+      }
+
+      if(digitalRead(INPUTPIN2)==0){
+      Serial.println("delay...");
+      time_now = 60000*value2;
+      delaycheck = delaycheck + 1;
+      if(delaycheck >= 8){
+          if(value2<=10){
+            value2=value2+2;
+            change_delay();
+            Serial.println("Delay Value Changed..!");
+          }else{
+            value2=2;
+          }
+        }  
+      }
+      else{
+      delaycheck=0;
+      }
+    delay(100);   
+    if(count>=900){
+      Serial.println("Sleep Mode Start....");
+      ESP.deepSleep(0);
+    }
+}
+
+void mill_test(){
+
+    if(millis() >= time_now + period){
+        if(sensorValue<300){
+          Serial.println("Middle level!");
+          digitalWrite(led_middle, HIGH);
+        }
+        time_now += period;
+        count=count+8;
+        Serial.println(count);
+        Serial.println(time_now);
+        Serial.print("Sensor Value:");
+        Serial.println(sensorValue);
+        if(sensorValue>=500){
+          digitalWrite(led_full, HIGH);
+          digitalWrite(led_empty, LOW);
+          digitalWrite(led_middle, LOW);
+          if(time_now<=(60000*value2)){
+            Serial.println("Beep Beep....!");
+            play_tone();
+          }
+        }
+        if(sensorValue<=500 && sensorValue>=300){
+          digitalWrite(led_empty, HIGH);
+          digitalWrite(led_full, LOW);
+          digitalWrite(led_middle, LOW);
+          if(time_now<=(60000*2)){
+            Serial.println("Tone Tone....!");
+            tonestart2();
+          }
+        }
+    }
+}
+
+void ledtest(){
+    digitalWrite(led_empty, HIGH);
+    digitalWrite(led_full, HIGH);
+    delay(300);
+    digitalWrite(led_empty, LOW);
+    digitalWrite(led_full, LOW);
+    delay(300);
+}
+
+void tonestart1(){
+  for(int i=0; i<=5; i++){
+    digitalWrite(TONEPIN, HIGH);
+    delay(100);
+    digitalWrite(TONEPIN, LOW);
+    delay(100);
+  }
+  Serial.println("tone....1");
+}
+
+void tonestart2(){
+  for(int i=0; i<=1; i++){
+    digitalWrite(TONEPIN, HIGH);
+    delay(500);
+    digitalWrite(TONEPIN, LOW);
+    delay(500);
+  }
+  Serial.println("tone....2");
+}
+
+void tonestart3(){
+  for(int i=0; i<=1; i++){
+    digitalWrite(TONEPIN, HIGH);
+    delay(1000);
+    digitalWrite(TONEPIN, LOW);
+    delay(1000);
+  }
+  Serial.println("tone...3");
+}
+
+
+void change_tone(){
+  if(value<=3){
+    EEPROM.write(addr1, value);
+      if (EEPROM.commit()) {
+      Serial.println("EEPROM successfully committed");
+      } else {
+      Serial.println("ERROR! EEPROM commit failed");
+      }
+  }else{
+    value=1;
+      EEPROM.write(addr1, value);
+      if (EEPROM.commit()) {
+      Serial.println("EEPROM successfully committed");
+      } else {
+      Serial.println("ERROR! EEPROM commit failed");
+      }
+  }
+  for(int i=1;i<=value;i++){
+    digitalWrite(led_empty, HIGH);
+    digitalWrite(led_full, HIGH);
+    delay(300);
+    digitalWrite(led_empty, LOW);
+    digitalWrite(led_full, LOW);
+    delay(300);
+  }
+  play_tone();
+  delay(5000);
+}
+
+void change_delay(){
+  if(value2<=10){
+    EEPROM.write(addr2, value2);
+      if (EEPROM.commit()) {
+      Serial.println("EEPROM successfully committed");
+      } else {
+      Serial.println("ERROR! EEPROM commit failed");
+      }
+  }else{
+    value2=2;
+      EEPROM.write(addr2, value2);
+      if (EEPROM.commit()) {
+      Serial.println("EEPROM successfully committed");
+      } else {
+      Serial.println("ERROR! EEPROM commit failed");
+      }
+  }
+  for(int i=1;i<=value2;i++){
+    digitalWrite(led_empty, HIGH);
+    digitalWrite(led_full, HIGH);
+    delay(300);
+    digitalWrite(led_empty, LOW);
+    digitalWrite(led_full, LOW);
+    delay(300);
+  }
+  Serial.print("Delay Time:");
+  Serial.println(value2);
+  delay(6000);
+}
+
+void play_tone(){
+   switch(value){
+    case 1: tonestart1();
+    break;
+    
+    case 2: tonestart2();
+    break;
+
+    case 3: tonestart3();
+    break;
+
+    default: tonestart1();
+    break;
+   }
+}
